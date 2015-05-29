@@ -1,8 +1,8 @@
 /**
  * jr-crop - A simple ionic plugin to crop your images.
  * @version 1.0.0
- * @link https://github.com/JrSchild/jr-crop
- * @author Joram Ruitenschild
+ * @link https://github.com/casper123/jr-crop
+ * @author Casper Kotwal
  * @license MIT
  */
 angular.module('jrCrop', [])
@@ -57,7 +57,15 @@ function($ionicModal, $rootScope, $q) {
         self.imgWidth = elem.naturalWidth;
         self.imgHeight = elem.naturalHeight;
 
-        self.options.modal.el.querySelector('.jr-crop-img').appendChild(self.imgSelect = elem.cloneNode());
+        self.imgSelect = elem.cloneNode();
+        console.log(self.imgSelect);
+
+        self.imgOverlay = elem.cloneNode();
+        self.imgOverlay.src = "../img/trans.png";
+        self.imgOverlay.style.cssText = 'position:absolute; top:0px; left:0px;width:' + self.imgWidth + 'px;' + 'height:' + self.imgHeight + 'px';
+
+        self.options.modal.el.querySelector('.jr-crop-img').appendChild(self.imgSelect);
+        self.options.modal.el.querySelector('.jr-crop-img').appendChild(self.imgOverlay);
         self.options.modal.el.querySelector('.jr-crop-select').appendChild(self.imgFull = elem.cloneNode());
 
         self.bindHandlers();
@@ -205,6 +213,7 @@ function($ionicModal, $rootScope, $q) {
         'scale3d(' + self.scale + ',' + self.scale + ', 1)';
 
       self.imgSelect.style[ionic.CSS.TRANSFORM] = transform;
+      self.imgOverlay.style[ionic.CSS.TRANSFORM] = transform;
       self.imgFull.style[ionic.CSS.TRANSFORM] = transform;
     },
 
@@ -239,8 +248,19 @@ function($ionicModal, $rootScope, $q) {
 
       context.drawImage(this.imgFull, sourceX, sourceY);
 
+      var output = {}
+      output.canvas = canvas;
+      output.sourceX = sourceX;
+      output.sourceY = sourceY;
+      output.correctX = correctX;
+      output.correctY = correctY;
+      output.canvasWidth = canvas.width;
+      output.canvasHeight = canvas.height;
+      output.currWidth = currWidth;
+      output.currHeight = currHeight;
+
       this.options.modal.remove();
-      this.promise.resolve(canvas);
+      this.promise.resolve(output);
     },
 
     /**
@@ -267,9 +287,9 @@ function($ionicModal, $rootScope, $q) {
     defaultOptions: {
       width: 0,
       height: 0,
-      aspectRatio: 0,
+      aspectRatio: 1,
       cancelText: 'Cancel',
-      chooseText: 'Choose'
+      chooseText: 'Crop'
     },
 
     crop: function(options) {

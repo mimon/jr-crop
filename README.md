@@ -1,6 +1,13 @@
 jr-crop
 ======
 
+This is the fork of jr-crop plugin by JrSchild (https://github.com/JrSchild/jr-crop)
+
+It was originally built to work for iOS. The problem is that most android version still do not support transparncy of images therefore it didn't worked well on android devices.
+
+I've changed it to work it with android devices by replacing css transparency with transparent png image. Also made some updates in return parms.
+
+
 A simple ionic plugin to crop your images, inspired by whatsapp and telegram.
 * Specifiy width and height of target
 * Doesn't actually scale the image, only returns a cropped version. Since the quality of images while scaling is inconsistent it's up to the developper to implement this, preferably on the server.
@@ -24,9 +31,9 @@ $jrCrop.crop({
     url: url,
     width: 200,
     height: 200
-}).then(function(canvas) {
+}).then(function(resultObj) {
     // success!
-    var image = canvas.toDataURL();
+    var image = resultObj.canvas.toDataURL();
 }, function() {
     // User canceled or couldn't load image.
 });

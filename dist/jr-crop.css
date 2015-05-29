@@ -1,5 +1,5 @@
 .jr-crop {
-  background-color: #000;
+  background-color: #000000;
   overflow: hidden; }
 
 .jr-crop-center-container {
@@ -24,7 +24,8 @@
   height: 100%; }
 
 .jr-crop-img {
-  opacity: 0.6; }
+  position: relative;;
+}
 
 .bar.jr-crop-footer {
   border: none;
