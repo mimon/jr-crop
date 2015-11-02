@@ -18,7 +18,7 @@ function($ionicModal, $rootScope, $q) {
                       '<div class="jr-crop-img" ng-style="{width: width + \'px\', height: height + \'px\'}"></div>' +
                     '</div>' +
                     '<div class="jr-crop-center-container">' +
-                      '<div class="jr-crop-select" style="overflow: hidden" ng-style="{width: width + \'px\', height: height + \'px\'}"></div>' +
+                      '<div class="jr-crop-select" ng-class="circleFrameClass" style="overflow: hidden" ng-style="{width: width + \'px\', height: height + \'px\'}"></div>' +
                     '</div>' +
                     '<div class="bar bar-footer bar-dark jr-crop-footer">' +
                       '<button class="button button-clear" ng-click="cancel()">{{cancelText}}</button>' +
@@ -65,7 +65,7 @@ function($ionicModal, $rootScope, $q) {
         self.imgOverlay.style.cssText = 'position:absolute; top:0px; left:0px;width:' + self.imgWidth + 'px;' + 'height:' + self.imgHeight + 'px';
 
         self.options.modal.el.querySelector('.jr-crop-img').appendChild(self.imgSelect);
-        self.options.modal.el.querySelector('.jr-crop-img').appendChild(self.imgOverlay);
+        // self.options.modal.el.querySelector('.jr-crop-img').appendChild(self.imgOverlay);
         self.options.modal.el.querySelector('.jr-crop-select').appendChild(self.imgFull = elem.cloneNode());
 
         self.bindHandlers();
@@ -289,7 +289,8 @@ function($ionicModal, $rootScope, $q) {
       height: 0,
       aspectRatio: 1,
       cancelText: 'Cancel',
-      chooseText: 'Crop'
+      chooseText: 'Crop',
+      circleFrame: false,
     },
 
     crop: function(options) {
@@ -298,6 +299,13 @@ function($ionicModal, $rootScope, $q) {
       var scope = $rootScope.$new(true);
 
       ionic.extend(scope, options);
+
+      if(scope.circleFrame) {
+        scope.circleFrameClass = 'circle-frame';
+      }
+      else {
+        scope.circleFrameClass = '';
+      }
 
       scope.modal = $ionicModal.fromTemplate(template, {
         scope: scope
